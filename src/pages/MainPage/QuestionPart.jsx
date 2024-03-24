@@ -4,8 +4,8 @@ import { Accordion } from './Accordion';
 
 export const QuestionPart = () => {
   return (
-    <div className='w-full flex flex-col laptop:flex-row bg-whiteBg dark:bg-darkThemeAppColor py-20 tablet:py-32 items-center '>
-        <div className="w-full laptop:w-2/5 flex justify-end items-center ">
+    <div className='w-full flex flex-col laptop:flex-row-reverse bg-whiteBg dark:bg-darkThemeAppColor py-20 tablet:py-32 items-center '>
+        <div className="w-full laptop:w-2/5 flex justify-start items-center ">
           <img className="laptop:w-4/5" src={qPicture} />
         </div>
         <div className="w-full laptop:w-3/5 flex justify-center">

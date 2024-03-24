@@ -8,7 +8,7 @@ export const Main = () => {
     <>
       <MainHeader />
       <Outlet />
-      <MainFooter/>
+      <MainFooter />
     </>
   );
 };

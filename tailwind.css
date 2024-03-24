@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 * {
   @apply font-montserrat;
 }
@@ -14,7 +12,7 @@ body.dark {
 
 .nav-link {
   @apply ml-2 px-3 py-3 text-white  hover:text-fcLightGray hover:bg-fcLightGreen hover:bg-opacity-50 rounded-2xl dark:hover:text-fcLightGreen text-lg hover:transition-all;
-  }
+}
 
 .nav-link-dropdown {
   @apply px-2 py-3 text-white dark:text-white rounded-2xl hover:bg-fcLightGreen hover:bg-opacity-50 dark:hover:text-fcLightGreen text-lg hover:transition-all mt-5;
@@ -37,5 +35,13 @@ body.dark {
 }
 
 ::selection {
-  @apply text-white bg-fcGreen  ;
+  @apply text-white bg-fcGreen;
+}
+
+.social-media {
+  @apply flex flex-row text-xl lg:text-2xl w-full justify-center hover:transition-all;
+}
+
+.social-media a {
+  @apply mr-3 text-fcDarkGreen dark:text-white dark:hover:text-fcGreen hover:text-white hover:transition-all;
 }

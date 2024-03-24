@@ -39,10 +39,10 @@ export const WhyChooseUs = () => {
               </span>
             </section>
             <Link
-              to="hizmetler"
+              to="hakkimizda"
               className="hover:bg-fcDarkGreen transition-all text-white bg-fcGreen px-6 py-4 rounded-full tablet:text-lg font-josefin  text-center"
             >
-              Hizmetlerimiz
+              Hakkımızda
             </Link>
           </div>
         </div>

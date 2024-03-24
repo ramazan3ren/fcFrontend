@@ -1,8 +1,8 @@
 import { createContext, useState, useEffect } from "react";
 import useDarkSide from "../hooks/useDarkSide";
-//import LogoBlack from "../assets/fc-black-logo.png";
+import LogoBlack from "../assets/fc-black-logo.png";
 import LogoWhite from "../assets/fc-white-logo.png";
-//import LogoGreen from "../assets/fc-logo.png";
+import LogoGreen from "../assets/fc-logo.png";
 
 const Context = createContext();
 
@@ -74,7 +74,10 @@ function Provider({ children }) {
     setOpenMobileMenu,
     windowDimensions,
     expanded,
-    accordionChange
+    accordionChange,
+    LogoBlack,
+    LogoWhite,
+    LogoGreen
   };
   return <Context.Provider value={sharedValue}>{children}</Context.Provider>;
 }

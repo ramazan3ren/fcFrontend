@@ -2,7 +2,7 @@ import React from "react";
 import { useContext } from "react";
 import { DarkModeSwitch } from "react-toggle-dark-mode";
 import Context from "../context/context";
-import Hamburger from "hamburger-react";
+import { Cross as Hamburger } from "hamburger-react";
 import { Link } from "react-router-dom";
 //import { UserLogin } from "../pages/LoginPages/UserLogin";
 
