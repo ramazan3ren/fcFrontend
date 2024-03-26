@@ -3,7 +3,7 @@ import React from "react";
 export const JoinUsCommunity = () => {
   return (
     <>
-      <div className="w-fulll laptop:px-80  text-left  mt-10 text-black dark:text-white mb-20">
+      <div className="w-fulll laptopL:px-80  text-left  mt-10 text-black dark:text-white mb-20">
         <h1 className="px-5 text-4xl font-bold text-fcGreen">
           Topluluğumuzun Bir Parçası Olun!
         </h1>

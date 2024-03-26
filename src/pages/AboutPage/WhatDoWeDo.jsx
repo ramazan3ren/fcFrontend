@@ -36,7 +36,7 @@ export const WhatDoWeDo = () => {
 
   return (
     <>
-      <div className="w-full laptop:px-80  text-left  text-black dark:text-white">
+      <div className="w-full laptopL:px-80  text-left  text-black dark:text-white">
         <h1 className="px-5 text-4xl font-bold text-fcGreen">
           Neler Yapıyoruz?{" "}
         </h1>

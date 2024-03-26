@@ -6,13 +6,14 @@ export const AboutEntrance = () => {
     scroller.scrollTo("iletisim", {
       duration: 800,
       delay: 0,
+      offset:-96 ,
       smooth: "easeInOutQuart",
     });
   };
 
   return (
     <>
-      <div className="w-fulll laptop:px-80  text-left  mt-20 text-black dark:text-white">
+      <div className="w-fulll laptopL:px-80  text-left  mt-20 text-black dark:text-white">
         <h1 className="px-5 text-4xl font-bold text-fcGreen">Biz Kimiz?</h1>
         <p className="px-5  mt-6 text-lg">
           Futbolun Kalbi'nde, futbol tutkunlarının sahada buluştuğu noktadayız.

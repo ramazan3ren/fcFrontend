@@ -36,7 +36,7 @@ export const WhyUs = () => {
 
   return (
     <>
-      <div className="w-full  laptop:px-80  text-left  text-black dark:text-white">
+      <div className="w-full  laptopL:px-80  text-left  text-black dark:text-white">
         <h1 className="px-5 text-4xl font-bold text-fcGreen">Neden Biz?</h1>
         <p className="px-5  my-6 text-lg">
           Futbolun Kalbi, futbol tutkunlarının yanı sıra, bir futbol ailesinin

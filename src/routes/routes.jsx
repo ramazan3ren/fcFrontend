@@ -6,9 +6,6 @@ import { FacilityLogin } from "../pages/LoginPages/FacilityLogin";
 import { UserCreate } from "../pages/LoginPages/UserCreate";
 import { AboutPage } from "../pages/AboutPage/page/AboutPage";
 
-
-
-
 const routes = createBrowserRouter([
   {
     path: "/",

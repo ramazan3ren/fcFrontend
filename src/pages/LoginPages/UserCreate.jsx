@@ -1,4 +1,10 @@
-import { Divider, TextField } from "@mui/material";
+import {
+  Alert,
+  AlertTitle,
+  CircularProgress,
+  Divider,
+  TextField,
+} from "@mui/material";
 import React from "react";
 import { useContext } from "react";
 import Context from "../../context/context";
@@ -7,7 +13,9 @@ import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { Api } from "./LoginApi";
+import { useEffect } from "react";
+import { Input } from "./UserCreateInput";
 
 export const UserCreate = () => {
   const { windowDimensions } = useContext(Context);
@@ -16,6 +24,56 @@ export const UserCreate = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
+  const [apiProgress, setApiProgress] = useState(false);
+  const [apiMessage, setApiMessage] = useState();
+  const [generalError, setGeneralError] = useState();
+
+  const [errors, setErrors] = useState();
+
+  useEffect(() => {
+    setErrors(function (lastErrors) {
+      return {
+        ...lastErrors,
+        username: undefined,
+      };
+    });
+  }, [username]);
+
+  useEffect(() => {
+    setErrors(function (lastErrors) {
+      return {
+        ...lastErrors,
+        email: undefined,
+      };
+    });
+  }, [email]);
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    setApiProgress(true);
+
+    try {
+      const response = await Api({
+        username,
+        email,
+        password,
+      });
+      setApiMessage(response.data.message);
+    } catch (axiosErrors) {
+      if (
+        axiosErrors.response?.data &&
+        axiosErrors.response.data.status === 400
+      ) {
+        setApiMessage();
+        setErrors(axiosErrors.response.data.validationErrors);
+        console.log(axiosErrors.response.data.validationErrors);
+      } else {
+        setGeneralError("Bilinmeyen bir hata oluştu!");
+      }
+    } finally {
+      setApiProgress(false);
+    }
+  };
 
   return (
     <>
@@ -29,6 +87,25 @@ export const UserCreate = () => {
         >
           <CloseRoundedIcon sx={{ fontSize: 50 }} />
         </Link>
+        {apiMessage && (
+          <div className="absolute tablet:right-0 top-16 mr-4">
+            <Alert severity="success">
+              <button
+                className="absolute right-[3px] top-[3px] "
+                onClick={() => {
+                  setApiMessage();
+                }}
+              >
+                <CloseRoundedIcon size="small" />
+              </button>
+              <AlertTitle>
+                <span className="font-bold">İşlem Başarılı</span>
+              </AlertTitle>
+              {apiMessage}
+            </Alert>
+          </div>
+        )}
+
         <form>
           <div
             className={`flex flex-col mobileM:w-[375px] mobileL:w-[415px]  bg-whiteBg ${
@@ -75,72 +152,65 @@ export const UserCreate = () => {
             </div>
 
             <div className="w-full flex flex-col justify-center items-center">
-              <div className="w-full mb-3">
-                <TextField
-                  sx={{ width: "100%" }}
-                  id="outlined-basic"
-                  name="username"
-                  onChange={(event) => {
-                    setUsername(event.target.value);
-                  }}
-                  label="Kullanıcı Adı"
-                  variant="outlined"
-                  color="success"
-                />
-              </div>
-              <div className="w-full mb-3">
-                <TextField
-                  sx={{ width: "100%" }}
-                  onChange={(event) => {
-                    setEmail(event.target.value);
-                  }}
-                  id="outlined-basic"
-                  label="E-posta"
-                  name="email"
-                  variant="outlined"
-                  color="success"
-                />
-              </div>
-              <div className="w-full mb-3">
-                <TextField
-                  sx={{ width: "100%" }}
-                  onChange={(event) => {
-                    setPassword(event.target.value);
-                  }}
-                  id="outlined-basic"
-                  label="Şifre"
-                  name="password"
-                  variant="outlined"
-                  color="success"
-                />
-              </div>
-              <div className="w-full mb-3">
-                <TextField
-                  sx={{ width: "100%" }}
-                  onChange={(event) => {
-                    setRePassword(event.target.value);
-                  }}
-                  id="outlined-basic"
-                  color="success"
-                  label="Şifre Tekrar"
-                  variant="outlined"
-                />
-              </div>
+              <Input
+                error={errors != null ? errors.username : null}
+                name={"username"}
+                labelError={errors != null ? errors.username : null}
+                label={"Kullanıcı Adı"}
+                onChange={(event) => {
+                  setUsername(event.target.value);
+                }}
+              />
+              <Input
+                error={errors != null ? errors.email : null}
+                name={"email"}
+                labelError={errors != null ? errors.email : null}
+                label={"E-posta"}
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                }}
+              />
+              <Input
+                error={null}
+                name={"password"}
+                labelError={"Lütfen Şifre Giriniz!"}
+                label={"Şifre"}
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                }}
+              />
+              <Input
+                error={null}
+                name={"password"}
+                labelError={"Lütfen Şifre Tekrarı Giriniz!"}
+                label={"Şifre Tekrar"}
+                onChange={(event) => {
+                  setRePassword(event.target.value);
+                }}
+              />
+
               <div className="w-full flex justify-center items-center">
                 <button
-                  onClick={(event) => {
-                    event.preventDefault();
-                    axios.post("/api/v1/users", {
-                      username,
-                      email,
-                      password,
-                    });
-                    
-                  }}
-                  className="px-4 py-2 bg-fcGreen rounded-lg text-white font-josefin "
+                  disabled={apiProgress || !password || password !== rePassword}
+                  onClick={onSubmit}
+                  className="px-4 py-2 bg-fcGreen rounded-lg text-white font-josefin disabled:bg-opacity-50 "
                 >
-                  Kayıt Ol
+                  {apiProgress == false ? (
+                    <span>Kayıt Ol</span>
+                  ) : (
+                    <span>Kaydediliyor</span>
+                  )}
                 </button>
+
+                {apiProgress && (
+                  <CircularProgress
+                    size={26}
+                    sx={{
+                      color: "#609966",
+                      position: "absolute",
+                    }}
+                  />
+                )}
               </div>
             </div>
           </div>
