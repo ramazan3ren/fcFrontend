@@ -1,10 +1,4 @@
-import {
-  Alert,
-  AlertTitle,
-  CircularProgress,
-  Divider,
-  TextField,
-} from "@mui/material";
+import { Alert, AlertTitle, CircularProgress, Divider } from "@mui/material";
 import React from "react";
 import { useContext } from "react";
 import Context from "../../context/context";
@@ -27,8 +21,21 @@ export const UserCreate = () => {
   const [apiProgress, setApiProgress] = useState(false);
   const [apiMessage, setApiMessage] = useState();
   const [generalError, setGeneralError] = useState();
+  const [showPassword, setShowPassword] = useState(false);
 
   const [errors, setErrors] = useState();
+
+  useEffect(() => {
+    setTimeout(() => {
+      setGeneralError();
+    }, 15000);
+  }, [generalError]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setApiMessage();
+    }, 15000);
+  }, [apiMessage]);
 
   useEffect(() => {
     setErrors(function (lastErrors) {
@@ -47,6 +54,15 @@ export const UserCreate = () => {
       };
     });
   }, [email]);
+
+  useEffect(() => {
+    setErrors(function (lastErrors) {
+      return {
+        ...lastErrors,
+        password: undefined,
+      };
+    });
+  }, [password]);
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -106,6 +122,24 @@ export const UserCreate = () => {
           </div>
         )}
 
+        {generalError && (
+          <div className="absolute tablet:right-0 top-16 mr-4">
+            <Alert severity="error">
+              <button
+                className="absolute right-[3px] top-[3px] "
+                onClick={() => {
+                  setGeneralError();
+                }}
+              >
+                <CloseRoundedIcon size="small" />
+              </button>
+              <AlertTitle>
+                <span className="font-bold">Bir Sorun Oluştu</span>
+              </AlertTitle>
+              {generalError}
+            </Alert>
+          </div>
+        )}
         <form>
           <div
             className={`flex flex-col mobileM:w-[375px] mobileL:w-[415px]  bg-whiteBg ${
@@ -113,12 +147,6 @@ export const UserCreate = () => {
                 ? "rounded-none px-10 py-20"
                 : "rounded-2xl p-10"
             }`}
-            style={{
-              height:
-                windowDimensions.winHeight <= 700
-                  ? windowDimensions.winHeight + "px"
-                  : "566px",
-            }}
           >
             <div>
               <h1 className="font-josefin font-bold text-3xl text-fcDarkGreen">
@@ -154,6 +182,7 @@ export const UserCreate = () => {
             <div className="w-full flex flex-col justify-center items-center">
               <Input
                 error={errors != null ? errors.username : null}
+                type={"text"}
                 name={"username"}
                 labelError={errors != null ? errors.username : null}
                 label={"Kullanıcı Adı"}
@@ -164,6 +193,7 @@ export const UserCreate = () => {
               <Input
                 error={errors != null ? errors.email : null}
                 name={"email"}
+                type={"email"}
                 labelError={errors != null ? errors.email : null}
                 label={"E-posta"}
                 onChange={(event) => {
@@ -171,19 +201,27 @@ export const UserCreate = () => {
                 }}
               />
               <Input
-                error={null}
+                error={errors != null ? errors.password : null}
                 name={"password"}
-                labelError={"Lütfen Şifre Giriniz!"}
+                type={"password"}
+                labelError={errors != null ? errors.password : null}
                 label={"Şifre"}
+                setShowPassword={setShowPassword}
+                showPassword={showPassword}
                 onChange={(event) => {
                   setPassword(event.target.value);
                 }}
               />
               <Input
-                error={null}
                 name={"password"}
-                labelError={"Lütfen Şifre Tekrarı Giriniz!"}
+                type={"password"}
+                error={password.error || password == rePassword ? null : true}
+                labelError={
+                  errors != null ? "Giridiğniz şifreler eşleşmiyor." : null
+                }
                 label={"Şifre Tekrar"}
+                showPassword={showPassword}
+                setShowPassword={setShowPassword}
                 onChange={(event) => {
                   setRePassword(event.target.value);
                 }}
