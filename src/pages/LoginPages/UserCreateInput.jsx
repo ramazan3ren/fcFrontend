@@ -18,6 +18,7 @@ export const Input = ({
   onChange,
   label,
   labelError,
+  color,
   type,
   showPassword,
   setShowPassword,
@@ -27,11 +28,10 @@ export const Input = ({
       <div className="w-full mb-3">
         {name == "password" ? (
           <FormControl
-            sx={{ width: "100%" }}
-            color="success"
+            sx={{ width: "100%", color:"#008972" }}
+            color={color}
             error={error != null ? true : false}
             name={name}
-            
             onChange={onChange}
           >
             <InputLabel>{label}</InputLabel>
@@ -51,19 +51,19 @@ export const Input = ({
               label={label}
             />
             {error != null ? <FormHelperText>{labelError}</FormHelperText> : ""}
-            
           </FormControl>
         ) : (
           <TextField
             error={error != null ? true : false}
             type={type}
-            sx={{ width: "100%" }}
+            sx={{ width: "100%", color:"" }}
             name={name}
+            color={color}
             onChange={onChange}
             label={label}
             helperText={error != null ? labelError : ""}
             variant="outlined"
-            color="success"
+            
           />
         )}
       </div>

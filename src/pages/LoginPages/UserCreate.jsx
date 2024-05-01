@@ -1,7 +1,7 @@
 import { Alert, AlertTitle, CircularProgress, Divider } from "@mui/material";
 import React from "react";
 import { useContext } from "react";
-import Context from "../../context/context";
+import Context from "@/context/context";
 import { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
@@ -76,13 +76,14 @@ export const UserCreate = () => {
       });
       setApiMessage(response.data.message);
     } catch (axiosErrors) {
-      if (
-        axiosErrors.response?.data &&
-        axiosErrors.response.data.status === 400
-      ) {
-        setApiMessage();
-        setErrors(axiosErrors.response.data.validationErrors);
-        console.log(axiosErrors.response.data.validationErrors);
+      if (axiosErrors.response?.data) {
+        if (axiosErrors.response.data.status === 400) {
+          setApiMessage();
+          setErrors(axiosErrors.response.data.validationErrors);
+          console.log(axiosErrors.response.data.validationErrors);
+        } else if (axiosErrors.response.data.status === 502) {
+          setGeneralError(axiosErrors.response.data.message);
+        }
       } else {
         setGeneralError("Bilinmeyen bir hata oluştu!");
       }
@@ -123,7 +124,7 @@ export const UserCreate = () => {
         )}
 
         {generalError && (
-          <div className="absolute tablet:right-0 top-16 mr-4">
+          <div className="absolute tablet:right-0 top-16 mr-4 z-50">
             <Alert severity="error">
               <button
                 className="absolute right-[3px] top-[3px] "
@@ -183,6 +184,7 @@ export const UserCreate = () => {
               <Input
                 error={errors != null ? errors.username : null}
                 type={"text"}
+                color={"success"}
                 name={"username"}
                 labelError={errors != null ? errors.username : null}
                 label={"Kullanıcı Adı"}
@@ -193,6 +195,7 @@ export const UserCreate = () => {
               <Input
                 error={errors != null ? errors.email : null}
                 name={"email"}
+                color={"success"}
                 type={"email"}
                 labelError={errors != null ? errors.email : null}
                 label={"E-posta"}
@@ -203,6 +206,7 @@ export const UserCreate = () => {
               <Input
                 error={errors != null ? errors.password : null}
                 name={"password"}
+                color={"success"}
                 type={"password"}
                 labelError={errors != null ? errors.password : null}
                 label={"Şifre"}
@@ -214,6 +218,7 @@ export const UserCreate = () => {
               />
               <Input
                 name={"password"}
+                color={"success"}
                 type={"password"}
                 error={password.error || password == rePassword ? null : true}
                 labelError={

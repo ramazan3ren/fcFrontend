@@ -4,6 +4,7 @@ import LogoBlack from "../assets/fc-black-logo.png";
 import LogoWhite from "../assets/fc-white-logo.png";
 import LogoGreen from "../assets/fc-logo.png";
 
+
 const Context = createContext();
 
 function Provider({ children }) {
@@ -45,7 +46,7 @@ function Provider({ children }) {
     setTheme(colorTheme);
     setDarkSide(checked);
 
-    //? colorTheme === "light" ? LogoBlack :      colorTheme === "light" ?: LogoBlack
+    //? colorTheme === "light" ? LogoBlack :  colorTheme === "light" ?: LogoBlack
     setLogo(LogoWhite);
   };
 
@@ -60,6 +61,8 @@ function Provider({ children }) {
   };
 
   //! Accordion < >
+
+
 
   const sharedValue = {
     colorTheme,
@@ -77,7 +80,7 @@ function Provider({ children }) {
     accordionChange,
     LogoBlack,
     LogoWhite,
-    LogoGreen
+    LogoGreen,
   };
   return <Context.Provider value={sharedValue}>{children}</Context.Provider>;
 }

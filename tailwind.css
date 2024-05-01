@@ -18,6 +18,10 @@ body.dark {
   @apply px-2 py-3 text-white dark:text-white rounded-2xl hover:bg-fcLightGreen hover:bg-opacity-50 dark:hover:text-fcLightGreen text-lg hover:transition-all mt-5;
 }
 
+.navbar-brand {
+  @apply tablet:w-72 tablet:flex tablet:justify-center tablet:items-center;
+}
+
 ::-webkit-scrollbar {
   @apply w-[10px];
 }
